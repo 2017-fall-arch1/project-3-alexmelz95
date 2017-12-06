@@ -14,21 +14,21 @@ AbRectOutline fieldOutline = {	/* playing field */
   {screenWidth/2 - 10, screenHeight/2 - 10}
 };
 
-Layer layer1 = {		/**< Layer with an orange circle */
-  (AbShape *)&circle8,
-  {(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
-  {0,0}, {0,0},				    /* last & next pos */
-  COLOR_VIOLET,
-  0,
-};
-
 
 Layer fieldLayer = {		/* playing field as a layer */
   (AbShape *) &fieldOutline,
   {screenWidth/2, screenHeight/2},/**< center */
   {0,0}, {0,0},				    /* last & next pos */
   COLOR_BLACK,
-  &layer1,
+  &0,
+};
+
+Layer layer1 = {		/**< Layer with an orange circle */
+  (AbShape *)&circle8,
+  {(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
+  {0,0}, {0,0},				    /* last & next pos */
+  COLOR_VIOLET,
+  &fieldLayer,
 };
 
 /** Moving Layer
@@ -131,8 +131,8 @@ void main()
 
   shapeInit();
 
-  layerInit(&fieldLayer);
-  layerDraw(&fieldLayer);
+  layerInit(&layer1);
+  layerDraw(&layer1);
 
 
   layerGetBounds(&fieldLayer, &fieldFence);
@@ -149,7 +149,7 @@ void main()
     }
     P1OUT |= GREEN_LED;       /**< Green led on when CPU on */
     redrawScreen = 0;
-    movLayerDraw(&ml1, &fieldLayer);
+    movLayerDraw(&ml1, &layer1);
   }
 }
 
