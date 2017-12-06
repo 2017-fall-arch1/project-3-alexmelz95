@@ -5,9 +5,10 @@
 #include <p2switches.h>
 #include <shape.h>
 #include <abCircle.h>
-//#include "sounds.h"
 
-u_int player;
+#define GREEN_LED BIT6
+
+AbRect player = {abRectGetBounds, abRectCheck, {5,5}};
 
 AbRectOutline fieldOutline = {	/* playing field */
   abRectOutlineGetBounds, abRectOutlineCheck,   
@@ -15,20 +16,36 @@ AbRectOutline fieldOutline = {	/* playing field */
 };
 
 
-Layer fieldLayer = {		/* playing field as a layer */
-  (AbShape *) &fieldOutline,
-  {screenWidth/2, screenHeight/2},/**< center */
-  {0,0}, {0,0},				    /* last & next pos */
-  COLOR_BLACK,
-  &0,
-};
-
 Layer layer1 = {		/**< Layer with an orange circle */
   (AbShape *)&circle8,
   {(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
   {0,0}, {0,0},				    /* last & next pos */
   COLOR_VIOLET,
+  0,
+};
+
+Layer fieldLayer = {
+  (AbShape *) &fieldOutline,
+  {(screenWidth/2), (screenHeight/2)},
+   {0,0},{0,0},
+   COLOR_WHITE,
+   &layer1,
+};
+
+Layer layer0 = {
+  (AbShape *)&circle8,
+  {(screenWidth/2)-10, (screenHeight/2)+5},
+  {0,0},{0,0},
+  COLOR_RED,
   &fieldLayer,
+};
+
+Layer playerLayer = {
+  (AbShape *)&player,
+  {screenWidth/2, screenHeight-15},
+  {0,0},{0,0},
+  COLOR_GREEN,
+  &layer0,
 };
 
 /** Moving Layer
@@ -42,7 +59,9 @@ typedef struct MovLayer_s {
 } MovLayer;
 
 /* initial value of {0,0} will be overwritten */
-MovLayer ml1 = { &layer1, {1,1}, 0 }; /**< not all layers move */
+MovLayer ml1 = {&layer1, {1,1}, 0 }; /**< not all layers move */
+MovLayer ml0 = {&layer0, {-1,1}, &ml1};
+MovLayer mlp = {&playerLayer, {0,1}, &ml0}; /* Player */
 
 void movLayerDraw(MovLayer *movLayers, Layer *layers)
 {
@@ -110,7 +129,7 @@ void mlAdvance(MovLayer *ml, Region *fence)
 }
 
 
-u_int bgColor = COLOR_BLUE;     /**< The background color */
+u_int bgColor = COLOR_BLACK;     /**< The background color */
 int redrawScreen = 1;           /**< Boolean for whether screen needs to be redrawn */
 
 Region fieldFence;		/**< fence around playing field  */
@@ -131,8 +150,8 @@ void main()
 
   shapeInit();
 
-  layerInit(&layer1);
-  layerDraw(&layer1);
+  layerInit(&playerLayer);
+  layerDraw(&playerLayer);
 
 
   layerGetBounds(&fieldLayer, &fieldFence);
@@ -149,7 +168,7 @@ void main()
     }
     P1OUT |= GREEN_LED;       /**< Green led on when CPU on */
     redrawScreen = 0;
-    movLayerDraw(&ml1, &layer1);
+    movLayerDraw(&mlp, &playerLayer);
   }
 }
 
@@ -160,7 +179,7 @@ void wdt_c_handler()
   P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
   count ++;
   if (count == 15) {
-    mlAdvance(&ml1, &fieldFence);
+    mlAdvance(&mlp, &fieldFence);
     if (p2sw_read())
       redrawScreen = 1;
     count = 0;
