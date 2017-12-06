@@ -209,41 +209,40 @@ void wdt_c_handler()
   count ++;
   if (count == 15) {
     //timer--;
-    checkForCollision(&ml0, &ml1);
-    if(checkForCollision(&ml0, &mlp) || checkForCollision(&ml1, &mlp)){
-      // endGame();
-    }
-    mlAdvance(&mlp, &fieldFence);
-    u_int switches = p2sw_read(), i;
-	char str[5];
-    for (i = 0; i < 4; i++)
-		str[i] = (switches & (1<<i)) ? 0 : 1;
-        str[4] = 0;
+      checkForCollision(&ml0, &ml1);
+      //checkForCollision(&ml0, &mlp);
+      //checkForCollision(&ml1, &mlp);
+      mlAdvance(&mlp, &fieldFence);
+      u_int switches = p2sw_read(), i;
+      short str[5];
+      for (i = 0; i < 4; i++)
+	str[i] = (switches & (1<<i)) ? 0 : 1;
+      str[4] = 0;
          
-        if(str[0]){
-			mlp.velocity.axes[0] = 0; 
-            mlp.velocity.axes[1] = 5;
-        }
-        if(str[1]){
-            mlp.velocity.axes[0] = 0; 
-            mlp.velocity.axes[1] = -5;
-        }
-        if(str[2]){
-            mlp.velocity.axes[0] = 5; 
-            mlp.velocity.axes[1] = 0;
-        }
-        if(str[3]){
-            mlp.velocity.axes[0] = -5; 
-            mlp.velocity.axes[1] = 0;
-        }
-        if(!str[0] && !str[1] && !str[2] && !str[3]){
-            ml0.velocity.axes[0] = 0; 
-            ml0.velocity.axes[1] = 0;
-        }
-        if (p2sw_read())
-            redrawScreen = 1;
-        count = 0;
-  } 
+      if(str[0]){
+	mlp.velocity.axes[0] = 0; 
+	mlp.velocity.axes[1] = 1;
+      }
+      if(str[1]){
+	mlp.velocity.axes[0] = 0; 
+	mlp.velocity.axes[1] = -1;
+      }
+      if(str[2]){
+	mlp.velocity.axes[0] = 1; 
+	mlp.velocity.axes[1] = 0;
+      }
+      if(str[3]){
+	mlp.velocity.axes[0] = -1; 
+	mlp.velocity.axes[1] = 0;
+      }
+      if(!str[0] && !str[1] && !str[2] && !str[3]){
+	mlp.velocity.axes[0] = 0; 
+	mlp.velocity.axes[1] = 0;
+      }
+      if (p2sw_read())
+	redrawScreen = 1;
+      count = 0;
+    }
   P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
 }
 
