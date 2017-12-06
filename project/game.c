@@ -8,6 +8,8 @@
 
 #define GREEN_LED BIT6
 
+short timer = 200;
+
 AbRect player = {abRectGetBounds, abRectCheck, {5,5}};
 
 AbRectOutline fieldOutline = {	/* playing field */
@@ -61,7 +63,7 @@ typedef struct MovLayer_s {
 /* initial value of {0,0} will be overwritten */
 MovLayer ml1 = {&layer1, {1,1}, 0 }; /**< not all layers move */
 MovLayer ml0 = {&layer0, {-1,2}, &ml1};
-MovLayer mlp = {&playerLayer, {0,0}, &ml0}; /* Player */
+MovLayer mlp = {&playerLayer, {0,1}, &ml0}; /* Player */
 
 void movLayerDraw(MovLayer *movLayers, Layer *layers)
 {
@@ -128,7 +130,7 @@ void mlAdvance(MovLayer *ml, Region *fence)
   } /**< for ml */
 }
 
-void checkForCollision(MovLayer *obj1, MovLayer *obj2){
+short checkForCollision(MovLayer *obj1, MovLayer *obj2){
      Region obj2_bound;
      Region obj1_bound;
      Vec2 coordinates;
@@ -143,10 +145,11 @@ void checkForCollision(MovLayer *obj1, MovLayer *obj2){
          
                  int velocity = obj1->velocity.axes[0] = -obj1->velocity.axes[0];
                  coordinates.axes[0] += (2*velocity);
-                 //buzzer_set_period(1500); //hit sound 
-             
+                 //buzzer_set_period(1500); //hit sound
+		 return 1;
          
      }
+     return 0;
  }
 
 
@@ -176,6 +179,7 @@ void main()
 
 
   layerGetBounds(&fieldLayer, &fieldFence);
+  drawString5x7(50, 3, "TIMER", COLOR_RED, COLOR_WHITE);
 
 
   enableWDTInterrupts();      /**< enable periodic interrupt */
@@ -197,12 +201,18 @@ void main()
 void wdt_c_handler()
 {
   static short count = 0;
+  //if(timer == 0){
+  //clearScreen(COLOR_BLACK);
+  //drawString5x7(20,60,"NEXT LEVEL", COLOR_GREEN, COLOR_BLACK);
+  //}
   P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
   count ++;
   if (count == 15) {
-	checkForCollision(&ml0, &ml1);
-	checkForCollision(&ml0, &mlp);
-	checkForCollision(&ml1, &mlp);
+    //timer--;
+    checkForCollision(&ml0, &ml1);
+    if(checkForCollision(&ml0, &mlp) || checkForCollision(&ml1, &mlp)){
+      // endGame();
+    }
     mlAdvance(&mlp, &fieldFence);
     if (p2sw_read())
       redrawScreen = 1;
@@ -210,3 +220,8 @@ void wdt_c_handler()
   } 
   P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
 }
+
+//void endGame(){
+  //  clearScreen(COLOR_BLACK);
+  //  drawString5x7(20,60,"NOOOOO",COLOR_GREEN,COLOR_BLACK);
+  //}
