@@ -32,16 +32,16 @@ int abCircleCheck(const AbCircle *circle, const Vec2 *circlePos, const Vec2 *pix
 #ifndef abCircle_decls_included
 #define abCircle_decls_included
 
-extern const AbCircle circle2;
-extern const AbCircle circle3;
-extern const AbCircle circle4;
-extern const AbCircle circle5;
-extern const AbCircle circle6;
-extern const AbCircle circle7;
+//extern const AbCircle circle2;
+//extern const AbCircle circle3;
+//extern const AbCircle circle4;
+//extern const AbCircle circle5;
+//extern const AbCircle circle6;
+//extern const AbCircle circle7;
 extern const AbCircle circle8;
-extern const AbCircle circle9;
-extern const AbCircle circle10;
-extern const AbCircle circle11;
+//extern const AbCircle circle9;
+//extern const AbCircle circle10;
+/*extern const AbCircle circle11;
 extern const AbCircle circle12;
 extern const AbCircle circle13;
 extern const AbCircle circle14;
@@ -181,5 +181,5 @@ extern const AbCircle circle147;
 extern const AbCircle circle148;
 extern const AbCircle circle149;
 extern const AbCircle circle150;
-
+*/
 #endif // included 

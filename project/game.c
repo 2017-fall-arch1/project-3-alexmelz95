@@ -249,7 +249,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       if(endGame == 1){
         clearScreen(COLOR_BLACK);
         drawString5x7(50,30,"OH NO!",COLOR_RED,COLOR_BLACK);
-        drawString5x7(20,50,"Seven Ate Nine!", COLOR_RED, COLOR_BLACK);
+        drawString5x7(5,50,"You've been crushed!", COLOR_RED, COLOR_BLACK);
         drawString5x7(10,90,"Press Button Below",COLOR_WHITE,COLOR_BLACK);
         drawString5x7(30,110,"To Try Again", COLOR_WHITE, COLOR_BLACK);
         redrawScreen = 0;
@@ -259,10 +259,6 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         winner();
         clearScreen(COLOR_BLACK);
         drawString5x7(50,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
-        drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
-        drawString5x7(10,60,"realize that it", COLOR_GREEN, COLOR_BLACK);
-        drawString5x7(10,70,"was just a", COLOR_GREEN, COLOR_BLACK);
-        drawString5x7(10,80,"nightmare, whew!", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(30,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
         redrawScreen = 0;
         buzzer_set_period(0);
