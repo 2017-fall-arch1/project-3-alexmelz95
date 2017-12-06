@@ -60,8 +60,8 @@ typedef struct MovLayer_s {
 
 /* initial value of {0,0} will be overwritten */
 MovLayer ml1 = {&layer1, {1,1}, 0 }; /**< not all layers move */
-MovLayer ml0 = {&layer0, {-1,1}, &ml1};
-MovLayer mlp = {&playerLayer, {0,1}, &ml0}; /* Player */
+MovLayer ml0 = {&layer0, {-1,2}, &ml1};
+MovLayer mlp = {&playerLayer, {0,0}, &ml0}; /* Player */
 
 void movLayerDraw(MovLayer *movLayers, Layer *layers)
 {
@@ -128,6 +128,27 @@ void mlAdvance(MovLayer *ml, Region *fence)
   } /**< for ml */
 }
 
+void checkForCollision(MovLayer *obj1, MovLayer *obj2){
+     Region obj2_bound;
+     Region obj1_bound;
+     Vec2 coordinates;
+     u_char x;
+     
+     abShapeGetBounds(obj2->layer->abShape, &obj2->layer->posNext, &obj2_bound);
+     vec2Add(&coordinates, &obj1->layer->pos, &obj1->velocity);
+     abShapeGetBounds(obj1->layer->abShape, &coordinates, &obj1_bound);
+ 
+     if(abShapeCheck(obj2->layer->abShape, &obj2->layer->pos, &obj1_bound.topLeft) ||
+         abShapeCheck(obj2->layer->abShape, &obj2->layer->pos, &obj1_bound.botRight) ){
+         
+                 int velocity = obj1->velocity.axes[0] = -obj1->velocity.axes[0];
+                 coordinates.axes[0] += (2*velocity);
+                 //buzzer_set_period(1500); //hit sound 
+             
+         
+     }
+ }
+
 
 u_int bgColor = COLOR_BLACK;     /**< The background color */
 int redrawScreen = 1;           /**< Boolean for whether screen needs to be redrawn */
@@ -179,6 +200,9 @@ void wdt_c_handler()
   P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
   count ++;
   if (count == 15) {
+	checkForCollision(&ml0, &ml1);
+	checkForCollision(&ml0, &mlp);
+	checkForCollision(&ml1, &mlp);
     mlAdvance(&mlp, &fieldFence);
     if (p2sw_read())
       redrawScreen = 1;
