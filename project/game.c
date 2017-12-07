@@ -195,7 +195,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
 
   void wdt_c_handler()
   {
-    static short timer = 0;
+    static short timer = 31;
     char time_text[10];
     static short count = 0;
     P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
