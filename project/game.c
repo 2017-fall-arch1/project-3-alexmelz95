@@ -246,6 +246,10 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         drawString5x7(20,60,"by Seven!", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(20,90,"S1: Continue",COLOR_WHITE,COLOR_BLACK);
         redrawScreen = 0;
+        if(str[0]){
+          clearScreen(COLOR_BLACK);
+          redrawScreen = 1;
+        }
       }
     }
     P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
