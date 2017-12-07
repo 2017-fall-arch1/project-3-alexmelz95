@@ -5,6 +5,7 @@
 #include <p2switches.h>
 #include <shape.h>
 #include <abCircle.h>
+#include "sound.h"
 
 #define GREEN_LED BIT6
 
@@ -20,12 +21,20 @@ AbRectOutline fieldOutline = {	/* playing field */
 };
 
 
+Layer layer2 = {		/**< Layer with an orange circle */
+  (AbShape *)&circle8,
+  {(screenWidth/2)-10, (screenHeight/2)-10}, /**< bit below & right of center */
+  {0,0}, {0,0},				    /* last & next pos */
+  COLOR_VIOLET,
+  0,
+};
+
 Layer layer1 = {		/**< Layer with an orange circle */
   (AbShape *)&circle8,
   {(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
   {0,0}, {0,0},				    /* last & next pos */
   COLOR_VIOLET,
-  0,
+  &layer2,
 };
 
 Layer fieldLayer = {
@@ -59,7 +68,8 @@ typedef struct MovLayer_s{
 }MovLayer;
 
 /* initial value of {0,0} will be overwritten */
-MovLayer ml1 = {&layer1, {1,1}, 0 }; /**< not all layers move */
+MovLayer ml2 = {&layer2, {2,-1}, 0 };
+MovLayer ml1 = {&layer1, {1,1}, &ml2 }; /**< not all layers move */
 MovLayer ml0 = {&layer0, {-1,2}, &ml1};
 MovLayer mlp = {&playerLayer, {0,0}, &ml0}; /* Player */
 
@@ -216,7 +226,11 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       }
       collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
-      if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
+      collisionCheck(&ml2, &ml1);
+      collisionCheck(&ml1, &ml2);
+      collisionCheck(&ml2, &ml0);
+      collisionCheck(&ml0, &ml2);
+      if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&ml2,&mlp)){
         // buzzer_set_period(450);
         endGame = 1;
       }
@@ -245,20 +259,20 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         redrawScreen = 1;
       if(endGame && !win){
         clearScreen(COLOR_BLACK);
-        drawString5x7(40,30,"OH NO!",COLOR_GREEN,COLOR_BLACK);
-        drawString5x7(20,50,"Seven Ate Nine!", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(40,30,"OH NO!",COLOR_RED,COLOR_BLACK);
+        drawString5x7(20,50,"Seven Ate Nine!", COLOR_RED, COLOR_BLACK);
         drawString5x7(10,90,"Press Button Below",COLOR_WHITE,COLOR_BLACK);
         drawString5x7(30,110,"To Try Again", COLOR_WHITE, COLOR_BLACK);
         redrawScreen = 0;
       }
       if(endGame && win){
         clearScreen(COLOR_BLACK);
-        drawString5x7(40,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
+        drawString5x7(50,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
         drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(10,60,"realize that it", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(10,70,"was just a", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(10,80,"nightmare, whew!", COLOR_GREEN, COLOR_BLACK);
-        drawString5x7(10,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
+        drawString5x7(30,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
         redrawScreen = 0;
       }
     }
