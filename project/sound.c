@@ -1,7 +1,6 @@
 #include <msp430.h>
 #include "libTimer.h"
 #include "sound.h"
-#include "music.s"
 static unsigned int period = 1000;
 static signed int rate = 200;
 
