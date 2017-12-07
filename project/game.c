@@ -23,7 +23,7 @@ AbRectOutline fieldOutline = {	/* playing field */
 
 Layer layer2 = {		/**< Layer with an orange circle */
   (AbShape *)&circle8,
-  {(screenWidth/2)-10, (screenHeight/2)-10}, /**< bit below & right of center */
+  {(screenWidth/2)-10, (screenHeight/2)-20}, /**< bit below & right of center */
   {0,0}, {0,0},				    /* last & next pos */
   COLOR_VIOLET,
   0,
@@ -68,7 +68,7 @@ typedef struct MovLayer_s{
 }MovLayer;
 
 /* initial value of {0,0} will be overwritten */
-MovLayer ml2 = {&layer2, {2,-1}, 0 };
+MovLayer ml2 = {&layer2, {-2,-1}, 0 };
 MovLayer ml1 = {&layer1, {1,1}, &ml2 }; /**< not all layers move */
 MovLayer ml0 = {&layer0, {-1,2}, &ml1};
 MovLayer mlp = {&playerLayer, {0,0}, &ml0}; /* Player */
