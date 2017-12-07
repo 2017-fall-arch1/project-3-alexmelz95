@@ -7,11 +7,11 @@ rendered at any screen position.
 
 Two structs are defined that are used to represent pixel positions:
 
- - Vec2 structs store (row, col) pairs and are used to specify pixel location coordinates and 
-   vectors between pixel locations.  Utility functions that compute foundational arithmetic 
+ - Vec2 structs store (row, col) pairs and are used to specify pixel location coordinates and
+   vectors between pixel locations.  Utility functions that compute foundational arithmetic
    operations upon Vec2s such as addition, subtraction, and absolute value.
 
- - Rect structs represent rectangular regions.   They are implemented as a pair of Vec2 structs 
+ - Rect structs represent rectangular regions.   They are implemented as a pair of Vec2 structs
    specifying the region's top-left and bottom-right coordinates.
 
 ## Abstract Shapes
@@ -34,20 +34,20 @@ Additional parameters required for each function:
 
  - the getBounds function's third parameter "bounds" is a pointer to a Region structure.
 
- - the check function's third parameter "pixel" is a pointer to a Vec2 specifying the pixel 
+ - the check function's third parameter "pixel" is a pointer to a Vec2 specifying the pixel
    coordinate being queried.
 
 
 ## AbShapes defined in this library
 
- - An AbRect defines a filled rectangle.  HalfSize is a Vec2 specifiying the relative (row, col) 
-   screen coordinte of its bottom-right corner.  The other 3 corners are mirror 
+ - An AbRect defines a filled rectangle.  HalfSize is a Vec2 specifiying the relative (row, col)
+   screen coordinte of its bottom-right corner.  The other 3 corners are mirror
    reflections of this vector.  
 
- - AbRectOutline is a single-pixel width outline of a rectangle.  Like AbRect, an AbRectOutline's 
+ - AbRectOutline is a single-pixel width outline of a rectangle.  Like AbRect, an AbRectOutline's
    size is also specified by a HalfSize vector.
- 
- - AbRArrow is a right-pointing arrow.  The arrow's size is determined by a "size" field in this 
+
+ - AbRArrow is a right-pointing arrow.  The arrow's size is determined by a "size" field in this
    struct.
 
 ## Layering
@@ -73,7 +73,7 @@ production.
 
 ## Suggested exercises
 
-In order to explore shape rendering, students are encouraged to create additinal "demo" programs that: 
+In order to explore shape rendering, students are encouraged to create additinal "demo" programs that:
 
  - render rectangles with different heights, widths, and colors
 
@@ -95,4 +95,3 @@ shapeLib requires lcdLib (in directory ../lcdLib).  Be sure to "make install" it
 circleLib (in directory ../circleLib) defines AbCircles of various diameters.  It requires shapeLib.
 
 Shape-motion-demo (in directory shape-motion-demo) implements moving AbShapes.
-

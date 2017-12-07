@@ -68,7 +68,6 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
 {
   int row, col;
   MovLayer *movLayer;
-
   and_sr(~8);			/**< disable interrupts (GIE off) */
   for (movLayer = movLayers; movLayer; movLayer = movLayer->next) { /* for each moving layer */
     Layer *l = movLayer->layer;
@@ -169,6 +168,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       configureClocks();
       lcd_init();
       shapeInit();
+      buzzer_init();
       p2sw_init(15);
 
       shapeInit();
@@ -210,16 +210,18 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         timer--;
         sprintf(time_text, "%02d", timer);
         drawString5x7(60,5,time_text,COLOR_WHITE,COLOR_BLACK);
-        if(!timer){
+        if(timer == 0){
           endGame = 1;
           win = 1;
+          win();
         }
       }
       collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
       if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
-        // buzzer_set_period(450);
+        buzzer_set_period(450);
         endGame = 1;
+        // lose();
       }
       mlAdvance(&mlp, &fieldFence);
       if(str[0]){

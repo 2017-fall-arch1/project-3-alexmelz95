@@ -24,7 +24,7 @@ void win() { //victory theme
 }
 
 void lose(){ //loser theme
-    loser();
+    // loser();
 }
 
 void buzzer_set_period(short cycles){

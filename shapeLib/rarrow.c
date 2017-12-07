@@ -4,7 +4,7 @@
 /** Check function required by AbShape
  *  abRArrowCheck returns true if the right arrow includes the selected pixel
  */
-int 
+int
 abRArrowCheck(const AbRArrow *arrow, const Vec2 *centerPos, const Vec2 *pixel)
 {
   Vec2 relPos;
@@ -23,11 +23,11 @@ abRArrowCheck(const AbRArrow *arrow, const Vec2 *centerPos, const Vec2 *pixel)
   }
   return within;
 }
-  
+
 /** Check function required by AbShape
  *  abRArrowGetBounds computes a right arrow's bounding box
  */
-void 
+void
 abRArrowGetBounds(const AbRArrow *arrow, const Vec2 *centerPos, Region *bounds)
 {
   int size = arrow->size, halfSize = size / 2;
@@ -36,5 +36,3 @@ abRArrowGetBounds(const AbRArrow *arrow, const Vec2 *centerPos, Region *bounds)
   bounds->botRight.axes[0] = centerPos->axes[0];
   bounds->botRight.axes[1] = centerPos->axes[1] + halfSize;
 }
-
-
