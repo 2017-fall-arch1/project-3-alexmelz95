@@ -9,7 +9,7 @@
 
 #define GREEN_LED BIT6
 
-int timer = 31;
+int timer = 5;
 char time_text[10];
 u_char endGame = 0, win = 0;
 
@@ -220,8 +220,6 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
       if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
-        buzzer_set_period(2000);
-        buzzer_set_period(3000);
         buzzer_set_period(4000);
         endGame = 1;
         // lose();
