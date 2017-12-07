@@ -10,7 +10,6 @@
 #define GREEN_LED BIT6
 
 int timer = 31;
-char time_text[10];
 u_char endGame = 0;
 
 AbRect player = {abRectGetBounds, abRectCheck, {5,5}};
@@ -197,6 +196,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
 
   void wdt_c_handler()
   {
+    char time_text[10];
     static short count = 0;
     P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
     u_int switches = p2sw_read(), i;
