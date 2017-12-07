@@ -9,7 +9,7 @@
 
 #define GREEN_LED BIT6
 
-int timer = 5;
+int timer = 31;
 char time_text[10];
 u_char endGame = 0;
 
