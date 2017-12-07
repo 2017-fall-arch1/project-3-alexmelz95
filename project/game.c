@@ -219,7 +219,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
       if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
-        buzzer_set_period(400);
+        buzzer_set_period(1000);
         endGame = 1;
         // lose();
       }
