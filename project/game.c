@@ -247,7 +247,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         redrawScreen = 1;
       if(endGame == 1){
         clearScreen(COLOR_BLACK);
-        drawString5x7(40,30,"OH NO!",COLOR_RED,COLOR_BLACK);
+        drawString5x7(50,30,"OH NO!",COLOR_RED,COLOR_BLACK);
         drawString5x7(20,50,"Seven Ate Nine!", COLOR_RED, COLOR_BLACK);
         drawString5x7(10,90,"Press Button Below",COLOR_WHITE,COLOR_BLACK);
         drawString5x7(30,110,"To Try Again", COLOR_WHITE, COLOR_BLACK);
