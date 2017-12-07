@@ -224,11 +224,11 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
           win = 1;
         }
       }
-      collisionCheck(&ml0, &ml1);
+      // collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
-      collisionCheck(&ml2, &ml1);
+      // collisionCheck(&ml2, &ml1);
       collisionCheck(&ml1, &ml2);
-      collisionCheck(&ml2, &ml0);
+      // collisionCheck(&ml2, &ml0);
       collisionCheck(&ml0, &ml2);
       if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&ml2,&mlp)){
         // buzzer_set_period(450);
