@@ -200,7 +200,8 @@ void wdt_c_handler()
   str[4] = 0;
   P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
   count ++;
-  if(menu){
+  lvl1 = 1;
+  // if(menu){
   //   if(str[0]){
   //     menu = 0;
   //     lvl1 = 1;
