@@ -210,17 +210,17 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       if(count%240 == 0){
         timer--;
         if(timer == 0){
+          redrawScreen = 0;
+          clearScreen(COLOR_BLACK);
           endGame = 1;
           win = 1;
           winner();
-          clearScreen(COLOR_BLACK);
           drawString5x7(50,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
           drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
           drawString5x7(10,60,"realize that it", COLOR_GREEN, COLOR_BLACK);
           drawString5x7(10,70,"was just a", COLOR_GREEN, COLOR_BLACK);
           drawString5x7(10,80,"nightmare, whew!", COLOR_GREEN, COLOR_BLACK);
           drawString5x7(30,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
-          redrawScreen = 0;
           buzzer_set_period(0);
         }
         sprintf(time_text, "%02d", timer);
