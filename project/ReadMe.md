@@ -12,5 +12,5 @@ Description: The objective of the game is to avoid the bouncing balls for 30 sec
       S3 - Down
       S4 - Right
 
-    Once the player has died or won, press RESET under the controls on the left side
+    Once the player has died or won, press RESET under the controls on the right side
     to restart the game.
