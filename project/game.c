@@ -265,6 +265,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         drawString5x7(10,80,"nightmare, whew!", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(30,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
         redrawScreen = 0;
+        buzzer_set_period(0);
       }
     }
     P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
