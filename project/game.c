@@ -193,12 +193,6 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
     }
   }
 
-  u_int switches = p2sw_read(), i;
-  char str[5];
-  for(i = 0; i < 4; i++)
-  str[i] = (switches & (1<<i)) ? 0 : 1;
-  str[4] = 0;
-
   void wdt_c_handler()
   {
     static short count = 0;
@@ -216,36 +210,62 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         endGame();
       }
       mlAdvance(&mlp, &fieldFence);
-      gameSwitchCheck();
+      u_int switches = p2sw_read(), i;
+      char str[5];
+      for(i = 0; i < 4; i++)
+        str[i] = (switches & (1<<i)) ? 0 : 1;
+      str[4] = 0;
+      if(str[0]){
+        mlp.velocity.axes[0] = -5;
+        mlp.velocity.axes[1] = 0;
+      }
+      if(str[1]){
+        mlp.velocity.axes[0] = 0;
+        mlp.velocity.axes[1] = -5;
+      }
+      if(str[2]){
+        mlp.velocity.axes[0] = 0;
+        mlp.velocity.axes[1] = 5;
+      }
+      if(str[3]){
+        mlp.velocity.axes[0] = 5;
+        mlp.velocity.axes[1] = 0;
+      }
+      if(!str[0] && !str[1] && !str[2] && !str[3]){
+        mlp.velocity.axes[0] = 0;
+        mlp.velocity.axes[1] = 0;
+      }
+      if (p2sw_read())
+        redrawScreen = 1;
       count = 0;
     }
     P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
   }
 
-  void gameSwitchCheck(){
-    if(str[0]){
-      mlp.velocity.axes[0] = -5;
-      mlp.velocity.axes[1] = 0;
-    }
-    if(str[1]){
-      mlp.velocity.axes[0] = 0;
-      mlp.velocity.axes[1] = -5;
-    }
-    if(str[2]){
-      mlp.velocity.axes[0] = 0;
-      mlp.velocity.axes[1] = 5;
-    }
-    if(str[3]){
-      mlp.velocity.axes[0] = 5;
-      mlp.velocity.axes[1] = 0;
-    }
-    if(!str[0] && !str[1] && !str[2] && !str[3]){
-      mlp.velocity.axes[0] = 0;
-      mlp.velocity.axes[1] = 0;
-    }
-    if (p2sw_read())
-    redrawScreen = 1;
-  }
+  // void gameSwitchCheck(){
+  //   if(str[0]){
+  //     mlp.velocity.axes[0] = -5;
+  //     mlp.velocity.axes[1] = 0;
+  //   }
+  //   if(str[1]){
+  //     mlp.velocity.axes[0] = 0;
+  //     mlp.velocity.axes[1] = -5;
+  //   }
+  //   if(str[2]){
+  //     mlp.velocity.axes[0] = 0;
+  //     mlp.velocity.axes[1] = 5;
+  //   }
+  //   if(str[3]){
+  //     mlp.velocity.axes[0] = 5;
+  //     mlp.velocity.axes[1] = 0;
+  //   }
+  //   if(!str[0] && !str[1] && !str[2] && !str[3]){
+  //     mlp.velocity.axes[0] = 0;
+  //     mlp.velocity.axes[1] = 0;
+  //   }
+  //   if (p2sw_read())
+  //   redrawScreen = 1;
+  // }
 
   void endGame(){
     clearScreen(COLOR_BLACK);
