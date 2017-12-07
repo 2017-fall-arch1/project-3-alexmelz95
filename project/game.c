@@ -206,6 +206,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
     str[4] = 0;
     count ++;
     if (count%15 == 0 && !endGame) {
+      buzzer_set_period(0);
       if(count%240 == 0){
         timer--;
         sprintf(time_text, "%02d", timer);
