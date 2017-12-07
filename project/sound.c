@@ -19,8 +19,8 @@ void buzzer_init(){
     P2DIR = BIT6;		/* enable output to speaker (P2.6) */
 }
 
-void win() { //victory theme
-    winner();
+void winner() { //victory theme
+    victory_theme();
 }
 
 void lose(){ //loser theme

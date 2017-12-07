@@ -1,4 +1,4 @@
-	.file "song.s"
+	.file "music.s"
 	.arch msp430g2553
 	.p2align 1,0
 
@@ -15,8 +15,8 @@ JT:	.word case0
 	.word case5
 	.word case7
 
-	.global winner
-winner:
+	.global victory_theme
+victory_theme:
 
 	    mov #5, r12
 	    cmp.b &state, r12	;5 - state
