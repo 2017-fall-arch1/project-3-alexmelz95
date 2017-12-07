@@ -24,7 +24,7 @@ extern MovLayer ml1, ml0, mlp;
 
 void mlAdvance(MovLayer *ml, Region *fence);
 
-short collisionCheck(MovLayer *obj1, MovLayer *obj2);
+int collisionCheck(MovLayer *obj1, MovLayer *obj2);
 
 
 #endif
