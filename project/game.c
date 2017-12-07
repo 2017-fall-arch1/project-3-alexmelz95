@@ -8,7 +8,7 @@
 
 #define GREEN_LED BIT6
 
-int timer = 15;
+int timer = 30;
 char time_text[10];
 int endGame = 0;
 
@@ -238,7 +238,6 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       }
       if (p2sw_read())
         redrawScreen = 1;
-      count = 0;
       if(endGame){
         clearScreen(COLOR_BLACK);
         drawString5x7(40,30,"Oh no!",COLOR_GREEN,COLOR_BLACK);
