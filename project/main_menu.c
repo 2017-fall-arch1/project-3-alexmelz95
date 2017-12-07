@@ -12,3 +12,4 @@ void mainMenu1(){
   drawString5x7(20,60,"only one who knows", COLOR_GREEN, COLOR_BLACK);
   drawString5x7(20,70,"Seven's dark secret", COLOR_GREEN, COLOR_BLACK);
 }
+//I made a change
