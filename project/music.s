@@ -50,7 +50,7 @@ case3: 	    mov #700, r12
 			CALL #case4
 	    jmp end
 
-case4: 	    mov #2000, Fr12
+case4: 	    mov #2000, r12
 	    CALL #buzzer_set_period
 	    ;mov.b #5, &state
 			CALL #case5
