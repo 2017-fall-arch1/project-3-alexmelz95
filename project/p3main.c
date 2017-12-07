@@ -22,7 +22,7 @@ void main(){
   shapeInit();
 
   enableWDTInterrupts();
-  os_sr(0x8);;
+  or_sr(0x8);
 
   mainMenu1();
 }
