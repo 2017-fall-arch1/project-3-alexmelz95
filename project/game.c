@@ -213,7 +213,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         if(timer == 0){
           endGame = 1;
           win = 1;
-          win();
+          winner();
         }
       }
       collisionCheck(&ml0, &ml1);

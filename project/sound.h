@@ -2,7 +2,7 @@
 #define buzzer_included
 
 void buzzer_init();
-void win();
+void winner();
 void lose();
 void buzzer_set_period(short cycles);
 
