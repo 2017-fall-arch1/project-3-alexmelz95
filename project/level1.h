@@ -10,7 +10,6 @@
 
 extern int timer;
 extern char time_text[10];
-extern u_char endGame;
 extern int redrawScreen;
 extern Region fieldFence;
 

@@ -6,17 +6,17 @@
 #include <shape.h>
 #include <abCircle.h>
 #include "level1.h"
+#include "main_menu.h"
 
 #define GREEN_LED BIT6
 
 int timer = 15;
 char time_text[10];
-u_char endGame = 0;
 
 AbRect player = {abRectGetBounds, abRectCheck, {5,5}};
 
 AbRectOutline fieldOutline = {	/* playing field */
-  abRectOutlineGetBounds, abRectOutlineCheck,   
+  abRectOutlineGetBounds, abRectOutlineCheck,
   {screenWidth/2 - 10, screenHeight/2 - 10}
 };
 
@@ -76,32 +76,32 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
   for (movLayer = movLayers; movLayer; movLayer = movLayer->next) { /* for each moving layer */
     Region bounds;
     layerGetBounds(movLayer->layer, &bounds);
-    lcd_setArea(bounds.topLeft.axes[0], bounds.topLeft.axes[1], 
+    lcd_setArea(bounds.topLeft.axes[0], bounds.topLeft.axes[1],
 		bounds.botRight.axes[0], bounds.botRight.axes[1]);
     for (row = bounds.topLeft.axes[1]; row <= bounds.botRight.axes[1]; row++) {
       for (col = bounds.topLeft.axes[0]; col <= bounds.botRight.axes[0]; col++) {
 	Vec2 pixelPos = {col, row};
 	u_int color = bgColor;
 	Layer *probeLayer;
-	for (probeLayer = layers; probeLayer; 
+	for (probeLayer = layers; probeLayer;
 	     probeLayer = probeLayer->next) { /* probe all layers, in order */
 	  if (abShapeCheck(probeLayer->abShape, &probeLayer->pos, &pixelPos)) {
 	    color = probeLayer->color;
-	    break; 
+	    break;
 	  } /* if probe check */
 	} // for checking all layers at col, row
-	lcd_writeColor(color); 
+	lcd_writeColor(color);
       } // for col
     } // for row
   } // for moving layer being updated
-}	  
+}
 
 
 
 //Region fence = {{10,30}, {SHORT_EDGE_PIXELS-10, LONG_EDGE_PIXELS-10}}; /**< Create a fence region */
 
 /** Advances a moving shape within a fence
- *  
+ *
  *  \param ml The moving shape to be advanced
  *  \param fence The region which will serve as a boundary for ml
  */
@@ -129,19 +129,19 @@ int collisionCheck(MovLayer *obj1, MovLayer *obj2){
      Region obj1_bound;
      Vec2 coordinates;
      u_char x;
-     
+
      abShapeGetBounds(obj2->layer->abShape, &obj2->layer->posNext, &obj2_bound);
      vec2Add(&coordinates, &obj1->layer->pos, &obj1->velocity);
      abShapeGetBounds(obj1->layer->abShape, &coordinates, &obj1_bound);
- 
+
      if(abShapeCheck(obj2->layer->abShape, &obj2->layer->pos, &obj1_bound.topLeft) ||
          abShapeCheck(obj2->layer->abShape, &obj2->layer->pos, &obj1_bound.botRight) ){
-          
+
                  int velocity = obj1->velocity.axes[0] = -obj1->velocity.axes[0];
                  coordinates.axes[0] += (2*velocity);
                  //buzzer_set_period(1500); //hit sound
 		 return 1;
-         
+
      }
      return 0;
  }
@@ -153,12 +153,12 @@ int redrawScreen = 1;           /**< Boolean for whether screen needs to be redr
 Region fieldFence;		/**< fence around playing field  */
 
 
-/** Initializes everything, enables interrupts and green LED, 
+/** Initializes everything, enables interrupts and green LED,
  *  and handles the rendering for the screen
  */
 void start1()
 {
-  //P1DIR |= GREEN_LED;		/**< Green led on when CPU on */		
+  //P1DIR |= GREEN_LED;		/**< Green led on when CPU on */
   //P1OUT |= GREEN_LED;
 
   //configureClocks();
@@ -179,7 +179,7 @@ void start1()
   //or_sr(0x8);	              /**< GIE (enable interrupts) */
 
 
-  for(;;) { 
+  for(;;) {
     while (!redrawScreen) { /**< Pause CPU if screen doesn't need updating */
       P1OUT &= ~GREEN_LED;    /**< Green led off witHo CPU */
       or_sr(0x10);	      /**< CPU OFF */
@@ -190,6 +190,39 @@ void start1()
   }
 }
 
+void gameSwitchCheck(){
+  if(str[0]){
+	  mlp.velocity.axes[0] = -5;
+	  mlp.velocity.axes[1] = 0;
+	}
+	if(str[1]){
+	  mlp.velocity.axes[0] = 0;
+	  mlp.velocity.axes[1] = -5;
+	}
+	if(str[2]){
+	  mlp.velocity.axes[0] = 0;
+	  mlp.velocity.axes[1] = 5;
+	}
+	if(str[3]){
+	  mlp.velocity.axes[0] = 5;
+	  mlp.velocity.axes[1] = 0;
+	}
+	if(!str[0] && !str[1] && !str[2] && !str[3]){
+	  mlp.velocity.axes[0] = 0;
+	  mlp.velocity.axes[1] = 0;
+	}
+	if (p2sw_read())
+	  redrawScreen = 1;
+}
+
+void endGame(){
+  clearScreen(COLOR_BLACK);
+  drawString5x7(40,30,"Oh no!",COLOR_GREEN,COLOR_BLACK);
+  drawString5x7(20,50,"You were eaten", COLOR_GREEN, COLOR_BLACK);
+  drawString5x7(20,60,"by Seven!", COLOR_GREEN, COLOR_BLACK);
+  drawString5x7(20,90,"S1: Continue",COLOR_WHITE,COLOR_BLACK);
+  redrawScreen = 0;
+}
 /** Watchdog timer interrupt handler. 15 interrupts/sec */
 //void wdt_c_handler()
 //{
@@ -221,25 +254,25 @@ void start1()
 //    for (i = 0; i < 4; i++)
 //	str[i] = (switches & (1<<i)) ? 0 : 1;
 //    str[4] = 0;
-//       
+//
 //    if(str[0]){
-//	mlp.velocity.axes[0] = 0; 
+//	mlp.velocity.axes[0] = 0;
 //	mlp.velocity.axes[1] = -5;
 //    }
 //    if(str[1]){
-//	mlp.velocity.axes[0] = 0; 
+//	mlp.velocity.axes[0] = 0;
 //	mlp.velocity.axes[1] = 5;
 //    }
 //    if(str[2]){
-//	mlp.velocity.axes[0] = -5; 
+//	mlp.velocity.axes[0] = -5;
 //	mlp.velocity.axes[1] = 0;
 //    }
 //    if(str[3]){
-//	mlp.velocity.axes[0] = 5; 
+//	mlp.velocity.axes[0] = 5;
 //	mlp.velocity.axes[1] = 0;
 //    }
 //    if(!str[0] && !str[1] && !str[2] && !str[3]){
-//	mlp.velocity.axes[0] = 0; 
+//	mlp.velocity.axes[0] = 0;
 //	mlp.velocity.axes[1] = 0;
 //    }
 //    if (p2sw_read())
