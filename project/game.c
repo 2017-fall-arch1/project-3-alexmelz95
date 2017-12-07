@@ -210,18 +210,10 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       if(count%240 == 0){
         timer--;
         if(timer == 0){
-          redrawScreen = 0;
-          clearScreen(COLOR_BLACK);
+          winGame();
           endGame = 1;
           win = 1;
           winner();
-          drawString5x7(50,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
-          drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
-          drawString5x7(10,60,"realize that it", COLOR_GREEN, COLOR_BLACK);
-          drawString5x7(10,70,"was just a", COLOR_GREEN, COLOR_BLACK);
-          drawString5x7(10,80,"nightmare, whew!", COLOR_GREEN, COLOR_BLACK);
-          drawString5x7(30,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
-          buzzer_set_period(0);
         }
         sprintf(time_text, "%02d", timer);
         drawString5x7(60,5,time_text,COLOR_WHITE,COLOR_BLACK);
@@ -278,4 +270,16 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       // }
     }
     P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
+  }
+
+  winGame(){
+    redrawScreen = 0;
+    clearScreen(COLOR_BLACK);
+    drawString5x7(50,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
+    drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
+    drawString5x7(10,60,"realize that it", COLOR_GREEN, COLOR_BLACK);
+    drawString5x7(10,70,"was just a", COLOR_GREEN, COLOR_BLACK);
+    drawString5x7(10,80,"nightmare, whew!", COLOR_GREEN, COLOR_BLACK);
+    drawString5x7(30,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
+    buzzer_set_period(0);
   }
