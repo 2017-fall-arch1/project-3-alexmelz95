@@ -205,11 +205,10 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       str[i] = (switches & (1<<i)) ? 0 : 1;
     str[4] = 0;
     count ++;
-    if(timer == 0){
-      endGame = 2;
-      winner();
-    }
     if (count%15 == 0 && endGame == 0) {
+      if(timer == 0){
+        endGame = 2;
+      }
       buzzer_set_period(0);
       if(count%240 == 0){
         timer--;
@@ -256,6 +255,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         buzzer_set_period(0);
       }
       if(endGame == 2){
+        winner();
         clearScreen(COLOR_BLACK);
         drawString5x7(50,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
         drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
