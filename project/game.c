@@ -8,9 +8,9 @@
 
 #define GREEN_LED BIT6
 
-int timer = 30;
+int timer = 31;
 char time_text[10];
-int endGame = 0;
+u_char endGame = 0, win = 0;
 
 AbRect player = {abRectGetBounds, abRectCheck, {5,5}};
 
@@ -209,10 +209,15 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         timer--;
         sprintf(time_text, "%02d", timer);
         drawString5x7(60,5,time_text,COLOR_WHITE,COLOR_BLACK);
+        if(!timer){
+          endGame = 1;
+          win = 1;
+        }
       }
       collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
-      if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp)|| collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
+      if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
+        buzzer_set_period(450);
         endGame = 1;
       }
       mlAdvance(&mlp, &fieldFence);
@@ -238,14 +243,22 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       }
       if (p2sw_read())
         redrawScreen = 1;
-      if(endGame){
+      if(endGame && !win){
         clearScreen(COLOR_BLACK);
-        drawString5x7(40,30,"Oh no!",COLOR_GREEN,COLOR_BLACK);
-        drawString5x7(20,50,"You were eaten", COLOR_GREEN, COLOR_BLACK);
-        drawString5x7(20,60,"by Seven!", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(40,30,"OH NO!",COLOR_GREEN,COLOR_BLACK);
+        drawString5x7(20,50,"Seven Ate Nine!", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(10,90,"Press Button Below",COLOR_WHITE,COLOR_BLACK);
-        drawString5x7(20,110,"to Try Again", COLOR_WHITE, COLOR_BLACK);
+        drawString5x7(30,110,"To Try Again", COLOR_WHITE, COLOR_BLACK);
         redrawScreen = 0;
+      }
+      if(endGame && win){
+        clearScreen(COLOR_BLACK);
+        drawString5x7(40,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
+        drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(10,60,"realize that it", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(10,70,"was just a", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(10,80,"nightmare, whew!", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(10,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
       }
     }
     P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
