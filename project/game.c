@@ -168,7 +168,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       configureClocks();
       lcd_init();
       shapeInit();
-      // buzzer_init();
+      buzzer_init();
       p2sw_init(15);
 
       shapeInit();
@@ -209,7 +209,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       if(timer == 0){
         endGame = 2;
       }
-      // buzzer_set_period(0);
+      buzzer_set_period(0);
       if(count%240 == 0){
         timer--;
         sprintf(time_text, "%02d", timer);
@@ -218,7 +218,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
       if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
-        // buzzer_set_period(4000);
+        buzzer_set_period(4000);
         endGame = 1;
         // lose();
       }
@@ -252,10 +252,10 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         drawString5x7(10,90,"Press Button Below",COLOR_WHITE,COLOR_BLACK);
         drawString5x7(30,110,"To Try Again", COLOR_WHITE, COLOR_BLACK);
         redrawScreen = 0;
-        // buzzer_set_period(0);
+        buzzer_set_period(0);
       }
       if(endGame == 2){
-        // winner();
+        winner();
         clearScreen(COLOR_BLACK);
         drawString5x7(50,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
         drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
@@ -264,7 +264,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         drawString5x7(10,80,"nightmare, whew!", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(30,110,"You Made It!",COLOR_WHITE,COLOR_BLACK);
         redrawScreen = 0;
-        // buzzer_set_period(0);
+        buzzer_set_period(0);
       }
     }
     P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
