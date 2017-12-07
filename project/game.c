@@ -9,9 +9,9 @@
 
 #define GREEN_LED BIT6
 
-int timer = 31;
+int timer = 5;
 char time_text[10];
-u_char endGame = 0, win = 0;
+u_char endGame = 0;
 
 AbRect player = {abRectGetBounds, abRectCheck, {5,5}};
 
@@ -205,14 +205,13 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       str[i] = (switches & (1<<i)) ? 0 : 1;
     str[4] = 0;
     count ++;
-    if (count%15 == 0 && !endGame) {
+    if (count%15 == 0 && endGame == 0) {
       buzzer_set_period(0);
       if(count%240 == 0){
         timer--;
         if(timer == 0){
           winGame();
-          endGame = 1;
-          win = 1;
+          endGame = 2;
           winner();
         }
         sprintf(time_text, "%02d", timer);
@@ -248,7 +247,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       }
       if (p2sw_read())
         redrawScreen = 1;
-      if(endGame && !win){
+      if(endGame == 1){
         clearScreen(COLOR_BLACK);
         drawString5x7(40,30,"OH NO!",COLOR_RED,COLOR_BLACK);
         drawString5x7(20,50,"Seven Ate Nine!", COLOR_RED, COLOR_BLACK);
