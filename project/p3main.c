@@ -13,7 +13,7 @@
 void main(){
   P1DIR |= GREEN_LED;
   P1OUT |= GREEN_LED;
-  buzzer_init();
+  //buzzer_init();
   configureClocks();
   lcd_init();
   shapeInit();

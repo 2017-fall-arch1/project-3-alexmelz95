@@ -21,7 +21,7 @@ void wdt_c_handler()
     if(str[0]){
       menu = 0;
       lvl1 = 1;
-      level1();
+      start1();
     }
     //if(str[1])
     //controlInstructions();
@@ -47,25 +47,25 @@ void wdt_c_handler()
 	for (i = 0; i < 4; i++)
 	  str[i] = (switches & (1<<i)) ? 0 : 1;
 	str[4] = 0;
-	
+
 	if(str[0]){
-	  mlp.velocity.axes[0] = -5; 
+	  mlp.velocity.axes[0] = -5;
 	  mlp.velocity.axes[1] = 0;
 	}
 	if(str[1]){
-	  mlp.velocity.axes[0] = 0; 
+	  mlp.velocity.axes[0] = 0;
 	  mlp.velocity.axes[1] = -5;
 	}
 	if(str[2]){
-	  mlp.velocity.axes[0] = 0; 
+	  mlp.velocity.axes[0] = 0;
 	  mlp.velocity.axes[1] = 5;
 	}
 	if(str[3]){
-	  mlp.velocity.axes[0] = 5; 
+	  mlp.velocity.axes[0] = 5;
 	  mlp.velocity.axes[1] = 0;
 	}
 	if(!str[0] && !str[1] && !str[2] && !str[3]){
-	  mlp.velocity.axes[0] = 0; 
+	  mlp.velocity.axes[0] = 0;
 	  mlp.velocity.axes[1] = 0;
 	}
 	if (p2sw_read())
