@@ -254,6 +254,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         drawString5x7(10,90,"Press Button Below",COLOR_WHITE,COLOR_BLACK);
         drawString5x7(30,110,"To Try Again", COLOR_WHITE, COLOR_BLACK);
         redrawScreen = 0;
+        buzzer_set_period(0);
       }
       if(endGame && win){
         clearScreen(COLOR_BLACK);
