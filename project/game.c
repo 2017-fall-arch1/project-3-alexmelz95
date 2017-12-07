@@ -255,7 +255,7 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         buzzer_set_period(0);
       }
       if(endGame == 2){
-        winner();
+        // winner();
         clearScreen(COLOR_BLACK);
         drawString5x7(50,30,"YAY!",COLOR_GREEN,COLOR_BLACK);
         drawString5x7(10,50,"You wake up and", COLOR_GREEN, COLOR_BLACK);
