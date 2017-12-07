@@ -6,7 +6,8 @@
 state:	.byte 0
 
 	.text
-curr_state:	.word case0
+curr:
+	.word case0
 	.word case1
 	.word case2
 	.word case3
@@ -19,58 +20,50 @@ curr_state:	.word case0
 victory_theme:
 
 	    mov #5, r12
-	    cmp.b &state, r12	;5 - state
-	    jl default		; 5 - state < 0
+	    cmp.b &state, r12	; is state less than 5
+	    JL default		; 5 - state < 0
 
-	    mov.b &state, r12
+	    mov.b &state, r12	; reading current state
 	    add r12, r12		; r12 = 2*state
-	    mov curr_state(r12), r0		; jmp curr_state[state]
+	    mov curr(r12), r0		; jmp curr[state]
 
-case0: 	    mov #2000, r12
+case0: 	    mov #880, r12
 	    CALL #buzzer_set_period
-	   	;mov.b #1, &state
-			CALL #case1
-	    jmp end
+	    mov.b #1, &state
+	    JMP end
 
 case1: 	    mov #1500, r12
 	    CALL #buzzer_set_period
-	    ;mov.b #2, &state
-			CALL #case2
-	    jmp end
+	    mov.b #2, &state
+	    JMP end
 
 case2:	    mov #500, r12
 	    CALL #buzzer_set_period
-	    ;mov.b #3, &state
-			CALL #case3
-	    jmp end
+	    mov.b #3, &state
+	    JMP end
 
 case3: 	    mov #700, r12
 	    CALL #buzzer_set_period
-	    ;mov.b #4, &state
-			CALL #case4
-	    jmp end
+	    mov.b #4, &state
+	    JMP end
 
 case4: 	    mov #2000, r12
 	    CALL #buzzer_set_period
-	    ;mov.b #5, &state
-			CALL #case5
-	    jmp end
+	    mov.b #5, &state
+	    JMP end
 
 case5:	    mov #2200, r12
 	    CALL #buzzer_set_period
-	    ;mov.b #6, &state
-			CALL #case6
-	    jmp end
+	    mov.b #6, &state
+	    JMP end
 case6:	    mov #3000, r12
 	    CALL #buzzer_set_period
-	    ;mov.b #7, &state
-			CALL #case7
-	    jmp end
+	    mov.b #7, &state
+	    JMP end
 case7:	    mov #2300, r12
 	    CALL #buzzer_set_period
-	    ;mov.b #8, &state
-			CALL #default
-	    jmp end
+	    mov.b #8, &state
+	    JMP end
 default:    mov #0, r12
 	    CALL #buzzer_set_period
 
