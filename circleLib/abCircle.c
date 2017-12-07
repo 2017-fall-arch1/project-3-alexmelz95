@@ -11,7 +11,7 @@ int abCircleCheck(const AbCircle *circle, const Vec2 *centerPos, const Vec2 *pix
   vec2Abs(&relPos);		      /* project to first quadrant */
   return (relPos.axes[0] <= radius && circle->chords[relPos.axes[0]] >= relPos.axes[1]);
 }
-  
+
 void
 abCircleGetBounds(const AbCircle *circle, const Vec2 *centerPos, Region *bounds)
 {
@@ -22,4 +22,3 @@ abCircleGetBounds(const AbCircle *circle, const Vec2 *centerPos, Region *bounds)
   }
   regionClipScreen(bounds);
 }
-
