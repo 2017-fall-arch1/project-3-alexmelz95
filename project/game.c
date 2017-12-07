@@ -209,13 +209,13 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       buzzer_set_period(0);
       if(count%240 == 0){
         timer--;
-        sprintf(time_text, "%02d", timer);
-        drawString5x7(60,5,time_text,COLOR_WHITE,COLOR_BLACK);
         if(timer == 0){
           endGame = 1;
           win = 1;
           winner();
         }
+        sprintf(time_text, "%02d", timer);
+        drawString5x7(60,5,time_text,COLOR_WHITE,COLOR_BLACK);
       }
       collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
