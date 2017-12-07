@@ -244,8 +244,8 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         drawString5x7(40,30,"Oh no!",COLOR_GREEN,COLOR_BLACK);
         drawString5x7(20,50,"You were eaten", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(20,60,"by Seven!", COLOR_GREEN, COLOR_BLACK);
-        drawString5x7(10,90,"Press Lower Button",COLOR_WHITE,COLOR_BLACK);
-        drawString5x7(20,100,"to Try Again", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(10,90,"Press Button Below",COLOR_WHITE,COLOR_BLACK);
+        drawString5x7(20,110,"to Try Again", COLOR_WHITE, COLOR_BLACK);
         redrawScreen = 0;
       }
     }
