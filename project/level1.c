@@ -193,6 +193,11 @@ void start1()
 void wdt_c_handler()
 {
   static short count = 0;
+  u_int switches = p2sw_read(), i;
+  char str[5];
+  for(i = 0; i < 4; i++)
+    str[i] = (switches & (1<<i)) ? 0 : 1;
+  str[4] = 0;
   P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
   count ++;
   if(menu){
