@@ -24,7 +24,7 @@ victory_theme:
 
 	    mov.b &state, r12
 	    add r12, r12		; r12 = 2*state
-	    mov jt(r12), r0		; jmp jt[state]
+	    mov JT(r12), r0		; jmp JT[state]
 
 case0: 	    mov #2000, r12
 	    CALL #buzzer_set_period
