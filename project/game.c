@@ -10,6 +10,7 @@
 
 int timer = 15;
 char time_text[10];
+int endGame = 0;
 
 AbRect player = {abRectGetBounds, abRectCheck, {5,5}};
 
@@ -197,8 +198,13 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
   {
     static short count = 0;
     P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
+    u_int switches = p2sw_read(), i;
+    char str[5];
+    for(i = 0; i < 4; i++)
+      str[i] = (switches & (1<<i)) ? 0 : 1;
+    str[4] = 0;
     count ++;
-    if (count%15 == 0) {
+    if (count%15 == 0 && !endGame) {
       if(count%240 == 0){
         timer--;
         sprintf(time_text, "%02d", timer);
@@ -207,14 +213,9 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
       if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp)|| collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
-        endGame();
+        endGame = 1;
       }
       mlAdvance(&mlp, &fieldFence);
-      u_int switches = p2sw_read(), i;
-      char str[5];
-      for(i = 0; i < 4; i++)
-        str[i] = (switches & (1<<i)) ? 0 : 1;
-      str[4] = 0;
       if(str[0]){
         mlp.velocity.axes[0] = -5;
         mlp.velocity.axes[1] = 0;
@@ -238,106 +239,14 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
       if (p2sw_read())
         redrawScreen = 1;
       count = 0;
+      if(endGame){
+        clearScreen(COLOR_BLACK);
+        drawString5x7(40,30,"Oh no!",COLOR_GREEN,COLOR_BLACK);
+        drawString5x7(20,50,"You were eaten", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(20,60,"by Seven!", COLOR_GREEN, COLOR_BLACK);
+        drawString5x7(20,90,"S1: Continue",COLOR_WHITE,COLOR_BLACK);
+        redrawScreen = 0;
+      }
     }
     P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
   }
-
-  // void gameSwitchCheck(){
-  //   if(str[0]){
-  //     mlp.velocity.axes[0] = -5;
-  //     mlp.velocity.axes[1] = 0;
-  //   }
-  //   if(str[1]){
-  //     mlp.velocity.axes[0] = 0;
-  //     mlp.velocity.axes[1] = -5;
-  //   }
-  //   if(str[2]){
-  //     mlp.velocity.axes[0] = 0;
-  //     mlp.velocity.axes[1] = 5;
-  //   }
-  //   if(str[3]){
-  //     mlp.velocity.axes[0] = 5;
-  //     mlp.velocity.axes[1] = 0;
-  //   }
-  //   if(!str[0] && !str[1] && !str[2] && !str[3]){
-  //     mlp.velocity.axes[0] = 0;
-  //     mlp.velocity.axes[1] = 0;
-  //   }
-  //   if (p2sw_read())
-  //   redrawScreen = 1;
-  // }
-
-  void endGame(){
-    clearScreen(COLOR_BLACK);
-    drawString5x7(40,30,"Oh no!",COLOR_GREEN,COLOR_BLACK);
-    drawString5x7(20,50,"You were eaten", COLOR_GREEN, COLOR_BLACK);
-    drawString5x7(20,60,"by Seven!", COLOR_GREEN, COLOR_BLACK);
-    drawString5x7(20,90,"S1: Continue",COLOR_WHITE,COLOR_BLACK);
-    redrawScreen = 0;
-  }
-  /** Watchdog timer interrupt handler. 15 interrupts/sec */
-  //void wdt_c_handler()
-  //{
-  //  static short count = 0;
-  // static short timer_count = 0;
-  //if(timer == 0){
-  //clearScreen(COLOR_BLACK);
-  //drawString5x7(20,60,"NEXT LEVEL", COLOR_GREEN, COLOR_BLACK);
-  //}
-  //  P1OUT |= GREEN_LED;		      /**< Green LED on when cpu on */
-  //  count ++;
-  //  timer_count ++;
-  //  if (count == 15) {
-  //    if(!endGame){
-  //      if(timer_count == 240){
-  //	timer--;
-  //	sprintf(time_text1, "%02d", timer);
-  //	drawString5x7(60,5,time_tex1,COLOR_WHITE,COLOR_BLACK);
-  //	timer_count = 0;
-  //    }
-  //    collisionCheck(&ml0, &ml1);
-  //    collisionCheck(&ml1, &ml0);
-  //    if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp)|| collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
-  //	endGame = 1;
-  //    }
-  //    mlAdvance(&mlp, &fieldFence);
-  //    u_int switches = p2sw_read(), i;
-  //    short str[5];
-  //    for (i = 0; i < 4; i++)
-  //	str[i] = (switches & (1<<i)) ? 0 : 1;
-  //    str[4] = 0;
-  //
-  //    if(str[0]){
-  //	mlp.velocity.axes[0] = 0;
-  //	mlp.velocity.axes[1] = -5;
-  //    }
-  //    if(str[1]){
-  //	mlp.velocity.axes[0] = 0;
-  //	mlp.velocity.axes[1] = 5;
-  //    }
-  //    if(str[2]){
-  //	mlp.velocity.axes[0] = -5;
-  //	mlp.velocity.axes[1] = 0;
-  //    }
-  //    if(str[3]){
-  //	mlp.velocity.axes[0] = 5;
-  //	mlp.velocity.axes[1] = 0;
-  //    }
-  //    if(!str[0] && !str[1] && !str[2] && !str[3]){
-  //	mlp.velocity.axes[0] = 0;
-  //	mlp.velocity.axes[1] = 0;
-  //    }
-  //    if (p2sw_read())
-  //	redrawScreen = 1;
-  //    count = 0;
-  //  }
-  //  if(endGame){
-  //    clearScreen(COLOR_BLACK);
-  //    drawString5x7(40,30,"Oh no!",COLOR_GREEN,COLOR_BLACK);
-  //    drawString5x7(20,50,"You were eaten", COLOR_GREEN, COLOR_BLACK);
-  //    drawString5x7(20,60,"by Seven!", COLOR_GREEN, COLOR_BLACK);
-  //    drawString5x7(20,90,"S1: Continue",COLOR_WHITE,COLOR_BLACK);
-  //  }
-  //}
-  //P1OUT &= ~GREEN_LED;		    /**< Green LED off when cpu off */
-  //}
