@@ -244,11 +244,11 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
         drawString5x7(40,30,"Oh no!",COLOR_GREEN,COLOR_BLACK);
         drawString5x7(20,50,"You were eaten", COLOR_GREEN, COLOR_BLACK);
         drawString5x7(20,60,"by Seven!", COLOR_GREEN, COLOR_BLACK);
-        drawString5x7(20,90,"S1: Continue",COLOR_WHITE,COLOR_BLACK);
+        drawString5x7(10,90,"Press Lower Button to Continue",COLOR_WHITE,COLOR_BLACK);
         redrawScreen = 0;
         if(str[0]){
-          clearScreen(COLOR_BLACK);
           redrawScreen = 1;
+          clearScreen(COLOR_BLACK);
         }
       }
     }
