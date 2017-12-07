@@ -21,20 +21,12 @@ AbRectOutline fieldOutline = {	/* playing field */
 };
 
 
-Layer layer2 = {		/**< Layer with an orange circle */
-  (AbShape *)&circle8,
-  {(screenWidth/2)-10, (screenHeight/2)-20}, /**< bit below & right of center */
-  {0,0}, {0,0},				    /* last & next pos */
-  COLOR_VIOLET,
-  0,
-};
-
 Layer layer1 = {		/**< Layer with an orange circle */
   (AbShape *)&circle8,
   {(screenWidth/2)+10, (screenHeight/2)+5}, /**< bit below & right of center */
   {0,0}, {0,0},				    /* last & next pos */
   COLOR_VIOLET,
-  &layer2,
+  0,
 };
 
 Layer fieldLayer = {
@@ -68,8 +60,7 @@ typedef struct MovLayer_s{
 }MovLayer;
 
 /* initial value of {0,0} will be overwritten */
-MovLayer ml2 = {&layer2, {-2,-1}, 0 };
-MovLayer ml1 = {&layer1, {1,1}, &ml2 }; /**< not all layers move */
+MovLayer ml1 = {&layer1, {1,1}, 0 }; /**< not all layers move */
 MovLayer ml0 = {&layer0, {-1,2}, &ml1};
 MovLayer mlp = {&playerLayer, {0,0}, &ml0}; /* Player */
 
@@ -224,13 +215,9 @@ void movLayerDraw(MovLayer *movLayers, Layer *layers)
           win = 1;
         }
       }
-      // collisionCheck(&ml0, &ml1);
+      collisionCheck(&ml0, &ml1);
       collisionCheck(&ml1, &ml0);
-      // collisionCheck(&ml2, &ml1);
-      collisionCheck(&ml1, &ml2);
-      // collisionCheck(&ml2, &ml0);
-      collisionCheck(&ml0, &ml2);
-      if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&ml2,&mlp)){
+      if(collisionCheck(&ml0, &mlp) || collisionCheck(&ml1, &mlp) || collisionCheck(&mlp,&ml0) || collisionCheck(&mlp,&ml1)){
         // buzzer_set_period(450);
         endGame = 1;
       }
