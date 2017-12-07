@@ -7,14 +7,14 @@ state:	.byte 0
 
 	.text
 curr:
-	.word case0
-	.word case1
-	.word case2
-	.word case3
-	.word case4
-	.word case5
-	.word case5
-	.word case7
+	.word note0
+	.word note1
+	.word note2
+	.word note3
+	.word note4
+	.word note5
+	.word note5
+	.word note7
 
 	.global victory_theme
 victory_theme:
@@ -27,12 +27,12 @@ victory_theme:
 	    add r12, r12		; r12 = 2*state
 	    mov curr(r12), r0		; jmp curr[state]
 
-case0: 	    mov #880, r12
+note0: 	    mov #880, r12
 	    CALL #buzzer_set_period
 	    mov.b #1, &state
 	    JMP end
 
-case1: 	    mov #1500, r12
+note1: 	    mov #1500, r12
 	    CALL #buzzer_set_period
 	    mov.b #2, &state
 	    JMP end
