@@ -20,7 +20,7 @@ void buzzer_init(){
 }
 
 void winner() { //victory theme
-    // victory_theme();
+    victory_theme();
 }
 
 void lose(){ //loser theme
