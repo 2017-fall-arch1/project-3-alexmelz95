@@ -20,49 +20,49 @@ victory_theme:
 
 	    mov #5, r12
 	    cmp.b &state, r12	;5 - state
-	    JL default		; 5 - state < 0
+	    jl default		; 5 - state < 0
 
 	    mov.b &state, r12
 	    add r12, r12		; r12 = 2*state
-	    mov JT(r12), r0		; jmp JT[state]
+	    mov jt(r12), r0		; jmp jt[state]
 
-case0: 	    mov #880, r12
+case0: 	    mov #2000, r12
 	    CALL #buzzer_set_period
 	    mov.b #1, &state
-	    JMP end
+	    jmp end
 
 case1: 	    mov #1500, r12
 	    CALL #buzzer_set_period
 	    mov.b #2, &state
-	    JMP end
+	    jmp end
 
 case2:	    mov #500, r12
 	    CALL #buzzer_set_period
 	    mov.b #3, &state
-	    JMP end
+	    jmp end
 
 case3: 	    mov #700, r12
 	    CALL #buzzer_set_period
 	    mov.b #4, &state
-	    JMP end
+	    jmp end
 
 case4: 	    mov #2000, r12
 	    CALL #buzzer_set_period
 	    mov.b #5, &state
-	    JMP end
+	    jmp end
 
 case5:	    mov #2200, r12
 	    CALL #buzzer_set_period
 	    mov.b #6, &state
-	    JMP end
+	    jmp end
 case6:	    mov #3000, r12
 	    CALL #buzzer_set_period
 	    mov.b #7, &state
-	    JMP end
+	    jmp end
 case7:	    mov #2300, r12
 	    CALL #buzzer_set_period
 	    mov.b #8, &state
-	    JMP end
+	    jmp end
 default:    mov #0, r12
 	    CALL #buzzer_set_period
 
